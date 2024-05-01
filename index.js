@@ -34,8 +34,8 @@ app.get("/api/:year-:month-:day", function(req,res){
 
 });
 
-app.get("/api/:unixDate", function(req,res){
-  var unixDate = req.params.unixDate;
+app.get("/api/:date", function(req,res){
+  var unixDate = req.params.date;
 
   var date = new Date(unixDate*1).toUTCString();
   res.json({"unix":unixDate,"utc":date})
