@@ -37,9 +37,18 @@ app.get("/api/:year-:month-:day", function(req,res){
 app.get("/api/:date", function(req,res){
   var unixDate = req.params.date;
 
+  if(!unixDate)
+  {
+    var dateNow = new Date();
+    var utcNow = dateNow.toUTCString;
+    var unixNox = Date.parse(dateNow);
+    res.json({"unix":unixNox,"utc":utcNow});
+  }
+  else
+  {
   var date = new Date(unixDate*1).toUTCString();
-  res.json({"unix":unixDate,"utc":date})
-
+  res.json({"unix":unixDate, "utc":date})
+  }
 });
 
 
