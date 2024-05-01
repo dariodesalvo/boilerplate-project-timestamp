@@ -29,12 +29,12 @@ app.get("/api/:year-:month-:day", function(req,res){
   var month = req.params.month;
   var day = req.params.day;
   const date = new Date(year+"-"+month+"-"+day).toUTCString();
-  const unix = Date.parse(date);
+  const unixDate = Date.parse(date);
 
   if(date==="Invalid Date")
-    res.json({"unix":"", "utc":""})
+    { error : "Invalid Date" }
   else
-    res.json({"unix":unix, "utc":date})
+    res.json({"unix":unixDate, "utc":date})
   
 });
 
@@ -50,9 +50,16 @@ app.get("/api/:date?", function(req,res){
   }
   else
   {
-  var date = new Date(unixDate*1).toUTCString();
+
+    if (!isNaN(unixDate)) {
+      //it's a number
+      unixDate=unixDate*1;
+    }
+
+
+  var date = new Date(unixDate).toUTCString();
   if(date==="Invalid Date")
-    res.json({"unix":"", "utc":""})
+    { error : "Invalid Date" }
   else
     res.json({"unix":unixDate, "utc":date})
   }
