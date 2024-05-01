@@ -30,24 +30,31 @@ app.get("/api/:year-:month-:day", function(req,res){
   var day = req.params.day;
   const date = new Date(year+"-"+month+"-"+day).toUTCString();
   const unix = Date.parse(date);
-  res.json({"unix":unix,"utc":date})
 
+  if(date==="Invalid Date")
+    res.json({"unix":"", "utc":""})
+  else
+    res.json({"unix":unix, "utc":date})
+  
 });
 
-app.get("/api/:date", function(req,res){
+app.get("/api/:date?", function(req,res){
   var unixDate = req.params.date;
 
   if(!unixDate)
   {
     var dateNow = new Date();
-    var utcNow = dateNow.toUTCString;
+    var utcNow = dateNow.toUTCString();
     var unixNox = Date.parse(dateNow);
     res.json({"unix":unixNox,"utc":utcNow});
   }
   else
   {
   var date = new Date(unixDate*1).toUTCString();
-  res.json({"unix":unixDate, "utc":date})
+  if(date==="Invalid Date")
+    res.json({"unix":"", "utc":""})
+  else
+    res.json({"unix":unixDate, "utc":date})
   }
 });
 
